@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", () => {
             navMenu.classList.remove("active");
         });
-    });
+    });//fechamento do evento carregar página html//
+
     //-estrutura do carrosel-//
     const slides=document.querySelectorAll(".carousel-slide");
     const dot= document.querySelectorAll(".dot");
@@ -30,6 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-//fechamento do evento carregar página html//
+
 
 
