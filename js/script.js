@@ -19,15 +19,39 @@ document.addEventListener("DOMContentLoaded", () => {
     let slideAtual=0;
     let slideIntervalo;
 
-    function showSlide(index) {
-        slides.forEach((slide) => slide.classList.remove("active"));
-        dot.forEach((dot)=> dot.classList.remove("active"));
+    function showSlide(index)
+     {
+        slides.forEach((slide)=> slide.classList.remove("active"));
+        dot.forEach((dots)=> dots.classList.remove("active"));
         
-        slideAtual = (index + slides.length) % slides.length;
+        slideAtual =(index + slides.length) % slides.length;
        
-        slide[slideAtual].classList.add("active");
-        dots[slideAtual].classList.add("active");
+        slides[slideAtual].classList.add("active");
+        dot[slideAtual].classList.add("active");
     }
+    function nextSlide(){
+        showSlide(slideAtual + 1);
+    }
+    function prevSlide(){ 
+        showSlide(slideAtual - 1);
+    }
+      function startSlide(){
+        slideIntervalo=setInterval(nextSlide,5000);
+    }
+    function stopsSlide(){
+        clearInterval(slideIntervalo);
+    }
+    nextBtn.addEventListener("click", ()=>{
+        nextSlide();
+        stopsSlide();
+        startSlide();
+    });
+    prevBtn.addEventListener("click", ()=>{
+        prevSlide();
+        stopsSlide();
+        startSlide();
+    });
+      startSlide();
 });
 
 
