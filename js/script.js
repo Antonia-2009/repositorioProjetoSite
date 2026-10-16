@@ -57,17 +57,96 @@ document.addEventListener("DOMContentLoaded", () => {
         {const index=parseInt(e.target.getAttribute("data-index"));
             showSlide(index);
             stopsSlide();
-            
-
     })});
     
+    //-Válidção campus formulário-//
+    const contatoForm=document.getElementById("contatoForm");
+    const email= document.getElementById("email");
+    const name=document.getElementById("name");
+    const mensagem=document.getElementById("mensagem");
+
+    contatoForm.addEventListener("submit",(event)=>{event.preventDefault();});
     
+    let isValid= true;
     
-    
-    
-    
-    
-    });
+    //-validação do campo nome(minimo 3 caracteres)// 
+    if(name.value.trim().length < 3)
+        {
+           showErro(name,"O nome deve ter no mínimo três caracteres");
+           isValid=false;
+        }    
+    //--Verificar se o campo e-mail é válido -//
+    if(isEmailValid(email.value.trim()))
+        {
+            showErro(email,"insira um e-mail válido");
+            isValid=false;
+        };
+        //-Validação do campo de mensagem(Mínimo 10 caracteres)-//
+        if(mensagem.value.trim().length < 10)
+            {
+              ShowErro(mensagem,"Escreva uma mensagem com ATÉ 10 caracteres");
+              isValid=false;
+            };
+        if(isValid)
+        {
+        ClearErro();
+          alert("Mensagem enviada com sucesso");
+          contatoForm,reset();
+        }
+         //--validação do campo "email"-//
+         
+         function isEmailValid(email)
+         {
+            const emailRegex= /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+             return emailRegex.test(email);
+
+         }
+         function showErro(inputElement,mensagem)
+         {
+          const formGroup=inputElement.parentElement;
+          clearFieldError(inputElement);
+          const erroMensagem=document.createElement("small");
+          erroMensagem.className="error-text";
+          errorMensagem.innerText=mensagem;
+          formGroup.appendChild(erroMensagem);
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
 
 
 
