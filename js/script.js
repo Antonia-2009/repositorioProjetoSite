@@ -52,7 +52,23 @@ document.addEventListener("DOMContentLoaded", () => {
         startSlide();
     });
       startSlide();
-});
+
+    dot.forEach((dot)=>{dot.addEventListener("click",(e)=>
+        {const index=parseInt(e.target.getAttribute("data-index"));
+            showSlide(index);
+            stopsSlide();
+            
+
+    })});
+    
+    
+    
+    
+    
+    
+    
+    });
+
 
 
 
