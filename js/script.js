@@ -62,17 +62,27 @@ document.addEventListener("DOMContentLoaded", () => {
     //-Válidção campus formulário-//
     const contatoForm=document.getElementById("contatoForm");
     const email= document.getElementById("email");
-    const name=document.getElementById("name");
+    const nome =document.getElementById("nome");
     const mensagem=document.getElementById("mensagem");
 
     contatoForm.addEventListener("submit",(event)=>{event.preventDefault();});
     
+    function showToast(mensagemCadastro){
+        const toast = document.getElementById("toast");
+        const toastMensagem=document.getElementById("toastMensagem");
+        toast.classList.add("show");
+
+        setTimeout(() =>{toast.classList.remove("show");},3000);
+    }
+    //-Limpar erro-//
+
+    clearErro();
     let isValid= true;
     
     //-validação do campo nome(minimo 3 caracteres)// 
-    if(name.value.trim().length < 3)
+    if(nome.value.trim().length < 3)
         {
-           showErro(name,"O nome deve ter no mínimo três caracteres");
+           showErro(nome,"O nome deve ter no mínimo três caracteres");
            isValid=false;
         }    
     //--Verificar se o campo e-mail é válido -//
@@ -84,11 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
         //-Validação do campo de mensagem(Mínimo 10 caracteres)-//
         if(mensagem.value.trim().length < 10)
             {
-              ShowErro(mensagem,"Escreva uma mensagem com ATÉ 10 caracteres");
+              showErro(mensagem,"Escreva uma mensagem com ATÉ 10 caracteres");
               isValid=false;
             };
         if(isValid)
         {
+        
         ClearErro();
           alert("Mensagem enviada com sucesso");
           contatoForm,reset();
@@ -98,17 +109,33 @@ document.addEventListener("DOMContentLoaded", () => {
          function isEmailValid(email)
          {
             const emailRegex= /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-             return emailRegex.test(email);
-
+            return emailRegex.test(email);
          }
+         //-remover a borda vermelha nos inputs-//
+         [nome,email,mensagem].forEach((input)=>{input.addEventListener("input",()=>{clearFieldError(input);});});
+         
          function showErro(inputElement,mensagem)
          {
-          const formGroup=inputElement.parentElement;
-          clearFieldError(inputElement);
+           const formGroup = inputElement.parentElement;
+           clearFieldError(inputElement);
+          inputElement.classList.add("input-error");
           const erroMensagem=document.createElement("small");
           erroMensagem.className="error-text";
-          errorMensagem.innerText=mensagem;
+          erroMensagem.innerText=mensagem;
+
           formGroup.appendChild(erroMensagem);
+         }
+         //--remove individualmente os erros-//
+         function clearFieldError(inputElement){
+            const formGroup = inputElement.parentElement;
+            inputElement.classList.remove("input-error");
+            const removerErro=formGroup.querySelector(".error-text");
+            if(removerErro){removerErro.remove(); }
+         }
+         //-Remover o erro de todos os campos-//
+         function clearErro(){
+            document.querySelectorAll(".erro-text").forEach((el)=>el.remove());
+            document.querySelectorAll(".input-error").forEach((el)=>el.classList.remove("input-error"));
          }
 
 
