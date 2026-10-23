@@ -58,6 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
             showSlide(index);
             stopsSlide();
     })});
+
+    function showToast(mensagemCadastro){
+        const toast = document.getElementById("toast");
+        const toastMensagem=document.getElementById("toastMensagem");
+        toastMensagem.textContent=mensagemCadastro;
+        toast.classList.add("show");
+
+        setTimeout(() =>{toast.classList.remove("show");},3000);
+    }
     
     //-Válidção campus formulário-//
     const contatoForm=document.getElementById("contatoForm");
@@ -65,78 +74,71 @@ document.addEventListener("DOMContentLoaded", () => {
     const nome =document.getElementById("nome");
     const mensagem=document.getElementById("mensagem");
 
-    contatoForm.addEventListener("submit",(event)=>{event.preventDefault();});
-    
-    function showToast(mensagemCadastro){
-        const toast = document.getElementById("toast");
-        const toastMensagem=document.getElementById("toastMensagem");
-        toast.classList.add("show");
+    contatoForm.addEventListener("submit",(event)=>{event.preventDefault();
+        //-Limpar erro-//
 
-        setTimeout(() =>{toast.classList.remove("show");},3000);
-    }
-    //-Limpar erro-//
-
-    clearErro();
-    let isValid= true;
+        clearErro();
+        let isValid= true;
     
-    //-validação do campo nome(minimo 3 caracteres)// 
-    if(nome.value.trim().length < 3)
+       //-validação do campo nome(minimo 3 caracteres)// 
+        if(nome.value.trim().length < 3)
         {
            showErro(nome,"O nome deve ter no mínimo três caracteres");
            isValid=false;
         }    
-    //--Verificar se o campo e-mail é válido -//
-    if(isEmailValid(email.value.trim()))
+       //--Verificar se o campo e-mail é válido -//
+        if(!isEmailValid(email.value.trim()))
         {
             showErro(email,"insira um e-mail válido");
             isValid=false;
         };
         //-Validação do campo de mensagem(Mínimo 10 caracteres)-//
         if(mensagem.value.trim().length < 10)
-            {
+        {
               showErro(mensagem,"Escreva uma mensagem com ATÉ 10 caracteres");
               isValid=false;
-            };
+        };
         if(isValid)
         {
-        
-        ClearErro();
-          alert("Mensagem enviada com sucesso");
-          contatoForm,reset();
+            clearErro();
+            showToast("Mensagem enviada com sucesso");
+            contatoForm.reset();
         }
+
+    });
+    
          //--validação do campo "email"-//
-         
-         function isEmailValid(email)
-         {
-            const emailRegex= /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-         }
+    
+    function isEmailValid(email)
+    {
+    const emailRegex=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+    }
          //-remover a borda vermelha nos inputs-//
          [nome,email,mensagem].forEach((input)=>{input.addEventListener("input",()=>{clearFieldError(input);});});
          
-         function showErro(inputElement,mensagem)
-         {
-           const formGroup = inputElement.parentElement;
-           clearFieldError(inputElement);
-          inputElement.classList.add("input-error");
-          const erroMensagem=document.createElement("small");
-          erroMensagem.className="error-text";
-          erroMensagem.innerText=mensagem;
-
-          formGroup.appendChild(erroMensagem);
-         }
+    function showErro(inputElement,mensagem)
+    {
+    const formGroup = inputElement.parentElement;
+    clearFieldError(inputElement);
+    inputElement.classList.add("input-error");
+    const erroMensagem=document.createElement("small");
+    erroMensagem.className="error-text";
+    erroMensagem.innerText=mensagem;
+    formGroup.appendChild(erroMensagem);
+    }
          //--remove individualmente os erros-//
-         function clearFieldError(inputElement){
-            const formGroup = inputElement.parentElement;
-            inputElement.classList.remove("input-error");
-            const removerErro=formGroup.querySelector(".error-text");
-            if(removerErro){removerErro.remove(); }
-         }
+    function clearFieldError(inputElement){
+    const formGroup = inputElement.parentElement;
+    inputElement.classList.remove("input-error");
+    const removerErro=formGroup.querySelector(".error-text");
+    if(removerErro){removerErro.remove(); }
+    }
          //-Remover o erro de todos os campos-//
-         function clearErro(){
-            document.querySelectorAll(".erro-text").forEach((el)=>el.remove());
-            document.querySelectorAll(".input-error").forEach((el)=>el.classList.remove("input-error"));
-         }
+    function clearErro(){
+    document.querySelectorAll(".erro-text").forEach((el)=>el.remove());
+    document.querySelectorAll(".input-error").forEach((el)=>el.classList.remove("input-error"));
+    }
 
 
 
